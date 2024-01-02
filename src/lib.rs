@@ -1,35 +1,45 @@
-use std::error::Error;
+use std::env;
 
+const N_ARGS_PANIC_STR: &str = "not enough arguments";
 const N_ARGS: usize = 3; 
 
-pub fn get_args() -> Result<Vec<String>, Box<dyn Error>> {
-    unimplemented!();
+pub fn get_args() -> Vec<String> {
+    let args: Vec<String> = env::args().collect();
+    check_args(&args);
+
+    args
 }
 
-fn check_args() -> Result<(), Box<dyn Error>> {
-    unimplemented!();
+fn check_args(args: &Vec<String>) {
+    if args.len() < N_ARGS {
+        panic!("{:?}", N_ARGS_PANIC_STR)
+    }
 }
 
 #[cfg(test)]
 mod test {
+    use super::*;
+
     #[test]
-    fn get_args_ok() {
-        unimplemented!()
+    fn check_args_ok() {
+        let args = Vec::from([
+            String::from("arg0"),
+            String::from("arg1"),
+            String::from("arg2"),
+        ]);
+
+        check_args(&args);
     }
 
     #[test]
-    fn get_args_no_args_panic() {
-        unimplemented!()
-    }
+    #[should_panic(expected = "not enough arguments")]
+    fn check_args_not_enough_args_panic() {
+        let args = Vec::from([
+            String::from("arg0"),
+            String::from("arg1"),
+        ]);
 
-    #[test]
-    fn get_args_file_not_found_panic() {
-        unimplemented!()
-    }
-
-    #[test]
-    fn get_args_missing_search_string_panic() {
-        unimplemented!()
+        check_args(&args);
     }
 
 }
