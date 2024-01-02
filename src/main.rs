@@ -1,3 +1,3 @@
 fn main() {
-    my_minigrep::get_args();
+    my_minigrep::args::get_args();
 }
