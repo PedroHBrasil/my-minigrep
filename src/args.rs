@@ -3,18 +3,31 @@ use std::env;
 const N_ARGS_PANIC_STR: &str = "not enough arguments";
 const N_ARGS: usize = 3; 
 
-pub fn get_args() -> Vec<String> {
-    let args: Vec<String> = env::args().collect();
-    check_args(&args);
-
-    args
+pub struct Args {
+    search_string: String,
+    file_path: String,
 }
 
-fn check_args(args: &Vec<String>) {
-    if args.len() < N_ARGS {
-        panic!("{:?}", N_ARGS_PANIC_STR)
+impl Args {
+    pub fn get() -> Self {
+        let args: Vec<String> = env::args().collect();
+        Self::check_args(&args);
+        let search_string = args[1].clone();
+        let file_path = args[2].clone();
+
+        Self {
+            search_string,
+            file_path,
+        }
+    }
+
+    fn check_args(args: &Vec<String>) {
+        if args.len() < N_ARGS {
+            panic!("{:?}", N_ARGS_PANIC_STR)
+        }
     }
 }
+
 
 #[cfg(test)]
 mod test {
@@ -28,7 +41,7 @@ mod test {
             String::from("arg2"),
         ]);
 
-        check_args(&args);
+        Args::check_args(&args);
     }
 
     #[test]
@@ -39,7 +52,7 @@ mod test {
             String::from("arg1"),
         ]);
 
-        check_args(&args);
+        Args::check_args(&args);
     }
 
 }

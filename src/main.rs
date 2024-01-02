@@ -1,3 +1,4 @@
+use my_minigrep::args::Args;
 fn main() {
-    my_minigrep::args::get_args();
+    Args::get();
 }
