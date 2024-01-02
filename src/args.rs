@@ -4,8 +4,8 @@ const N_ARGS_PANIC_STR: &str = "not enough arguments";
 const N_ARGS: usize = 3; 
 
 pub struct Args {
-    search_string: String,
-    file_path: String,
+    pub search_string: String,
+    pub file_path: String,
 }
 
 impl Args {
