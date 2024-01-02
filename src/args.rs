@@ -11,7 +11,7 @@ pub struct Args {
 impl Args {
     pub fn get() -> Self {
         let args: Vec<String> = env::args().collect();
-        Self::check_args(&args);
+        Self::check(&args);
         let search_string = args[1].clone();
         let file_path = args[2].clone();
 
@@ -21,7 +21,7 @@ impl Args {
         }
     }
 
-    fn check_args(args: &Vec<String>) {
+    fn check(args: &Vec<String>) {
         if args.len() < N_ARGS {
             panic!("{:?}", N_ARGS_PANIC_STR)
         }
@@ -41,7 +41,7 @@ mod test {
             String::from("arg2"),
         ]);
 
-        Args::check_args(&args);
+        Args::check(&args);
     }
 
     #[test]
@@ -52,7 +52,7 @@ mod test {
             String::from("arg1"),
         ]);
 
-        Args::check_args(&args);
+        Args::check(&args);
     }
 
 }
