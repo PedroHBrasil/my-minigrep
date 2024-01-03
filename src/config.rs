@@ -3,21 +3,24 @@ use std::env;
 const N_ARGS_PANIC_STR: &str = "not enough arguments";
 const N_ARGS: usize = 3; 
 
-pub struct Args {
+pub struct Config {
     pub search_string: String,
     pub file_path: String,
+    pub case_sensitive: bool,
 }
 
-impl Args {
+impl Config {
     pub fn get() -> Self {
         let args: Vec<String> = env::args().collect();
         Self::check(&args);
         let search_string = args[1].clone();
         let file_path = args[2].clone();
+        let case_sensitive = env::var("CASE_SENSITIVE").is_ok();
 
         Self {
             search_string,
             file_path,
+            case_sensitive,
         }
     }
 
@@ -41,7 +44,7 @@ mod test {
             String::from("arg2"),
         ]);
 
-        Args::check(&args);
+        Config::check(&args);
     }
 
     #[test]
@@ -52,7 +55,7 @@ mod test {
             String::from("arg1"),
         ]);
 
-        Args::check(&args);
+        Config::check(&args);
     }
 
 }

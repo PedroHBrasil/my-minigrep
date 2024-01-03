@@ -1,6 +1,6 @@
-use my_minigrep::{args::Args, run};
+use my_minigrep::{config::Config, run};
 
 fn main() {
-  let args = Args::get();
-  run(args);
+  let config = Config::get();
+  run(config);
 }
