@@ -8,7 +8,7 @@ use std::fs;
 /// # Arguments
 /// 
 /// * ˋconfigˋ - search configuration parameters
-pub fn run(config: &config::Config) -> Result<(), &'static str> {
+pub fn run(config: &config::Config) {
   let content = fs::read_to_string(&config.file_path);
   let text = match content {
     Ok(text) => text,
@@ -20,8 +20,6 @@ pub fn run(config: &config::Config) -> Result<(), &'static str> {
   for result in results {
     println!("{result}");
   }
-
-  Ok(())
 }
 
 #[cfg(test)]
@@ -38,9 +36,7 @@ mod test {
       case_sensitive: true,
     };
 
-    let result = run(&config);
-
-    assert!(result.is_ok());
+    run(&config);
   }
 
   #[test]
@@ -52,7 +48,7 @@ mod test {
       case_sensitive: true,
     };
 
-    let _ = run(&config);
+    run(&config);
   }
 
 }
