@@ -17,7 +17,9 @@ pub fn run(config: &config::Config) -> Result<(), &'static str> {
 
   let results = search::search(&config.search_string, &text, config.case_sensitive);
 
-  println!("{:?}", results);
+  for result in results {
+    println!("{result}");
+  }
 
   Ok(())
 }
