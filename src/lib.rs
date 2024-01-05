@@ -17,3 +17,24 @@ pub fn run(config: &config::Config) -> Result<(), &'static str> {
 
   Ok(())
 }
+
+#[cfg(test)]
+mod test {
+  use std::path::PathBuf;
+  use crate::config::Config;
+  use super::*;
+
+  #[test]
+  fn run_ok() {
+    let config = Config {
+      search_string: String::from("the"),
+      file_path: PathBuf::from("tests/fixtures/poem.txt"),
+      case_sensitive: true,
+    };
+
+    let result = run(&config);
+
+    assert!(result.is_ok());
+  }
+
+}
