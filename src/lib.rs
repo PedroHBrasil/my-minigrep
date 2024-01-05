@@ -9,7 +9,11 @@ use std::fs;
 /// 
 /// * ˋconfigˋ - search configuration parameters
 pub fn run(config: &config::Config) -> Result<(), &'static str> {
-  let text = fs::read_to_string(&config.file_path).expect("Should be able to load file.");
+  let content = fs::read_to_string(&config.file_path);
+  let text = match content {
+    Ok(text) => text,
+    Err(error) => panic!("Could not load file content: {:?}", error),
+  };
 
   let results = search::search(&config.search_string, &text, config.case_sensitive);
 
@@ -35,6 +39,18 @@ mod test {
     let result = run(&config);
 
     assert!(result.is_ok());
+  }
+
+  #[test]
+  #[should_panic(expected="Could not load file content")]
+  fn run_panic() {
+    let config = Config {
+      search_string: String::from("the"),
+      file_path: PathBuf::from("fake_file.fake"),
+      case_sensitive: true,
+    };
+
+    let _ = run(&config);
   }
 
 }
