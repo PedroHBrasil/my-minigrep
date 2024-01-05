@@ -9,7 +9,7 @@ use std::fs;
 /// 
 /// * ˋconfigˋ - search configuration parameters
 pub fn run(config: &config::Config) -> Result<(), &'static str> {
-  let text = fs::read_to_string(&config.file_path).expect("Couldn't load file.");
+  let text = fs::read_to_string(&config.file_path).expect("Should be able to load file.");
 
   let results = search::search(&config.search_string, &text, config.case_sensitive);
 

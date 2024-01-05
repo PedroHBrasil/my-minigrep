@@ -1,8 +1,5 @@
 /// This module defines the search configuration struct and it's implementation, along with some unit tests.
-use std::{
-  env,
-  path::{self, PathBuf},
-};
+use std::{ env, path };
 
 /// Error messages
 const N_ARGS_PANIC_STR: &str = "not enough arguments";
@@ -28,7 +25,7 @@ impl Config {
     Self::check_args(&args)?;
 
     let search_string = args[1].clone();
-    let file_path = PathBuf::from(args[2].clone());
+    let file_path = path::PathBuf::from(args[2].clone());
     Self::check_file_path(&file_path)?;
 
     let case_sensitive = env::var("CASE_SENSITIVE").is_ok();
@@ -49,7 +46,7 @@ impl Config {
     Ok(())
   }
 
-  fn check_file_path(file_path: &PathBuf) -> Result<(), &'static str> {
+  fn check_file_path(file_path: &path::PathBuf) -> Result<(), &'static str> {
     if !file_path.exists() {
       return Err(FILE_DOESNT_EXIST_STR);
     }
@@ -89,7 +86,7 @@ mod test {
 
   #[test]
   fn check_file_path_ok() {
-    let file_path = PathBuf::from("tests/fixtures/poem.txt");
+    let file_path = path::PathBuf::from("tests/fixtures/poem.txt");
 
     let result = Config::check_file_path(&file_path);
 
@@ -98,7 +95,7 @@ mod test {
 
   #[test]
   fn check_file_path_file_doesnt_exist() {
-    let file_path = PathBuf::from("tests/fixtures/doesnt_exist.crazy");
+    let file_path = path::PathBuf::from("tests/fixtures/doesnt_exist.crazy");
 
     let result = Config::check_file_path(&file_path);
 
@@ -107,7 +104,7 @@ mod test {
 
   #[test]
   fn check_file_path_is_dir() {
-    let file_path = PathBuf::from("tests");
+    let file_path = path::PathBuf::from("tests");
 
     let result = Config::check_file_path(&file_path);
 
