@@ -5,8 +5,8 @@ use std::{ env, path };
 const N_ARGS_PANIC_STR: &str = "not enough arguments";
 const FILE_DOESNT_EXIST_STR: &str = "file does not exist";
 const PATH_IS_DIR_STR: &str = "path is a directory";
-/// Minimum number of process arguments needed (one more than we actually need because the first one is always the binary file's name)
-const N_ARGS: usize = 3;
+/// Minimum number of process arguments needed
+const N_ARGS: usize = 2;
 
 /// Represents the configuration needed to search for a string on a text file.
 pub struct Config {
@@ -21,11 +21,11 @@ pub struct Config {
 impl Config {
   /// Returns a configuration based on the process arguments and the existance of the "CASE_SENSITIVE" environment variable
   pub fn get() -> Result<Self, &'static str> {
-    let args: Vec<String> = env::args().collect();
+    let args: Vec<String> = env::args().skip(1).collect();
     Self::check_args(&args)?;
 
-    let search_string = args[1].clone();
-    let file_path = path::PathBuf::from(args[2].clone());
+    let search_string = args[0].clone();
+    let file_path = path::PathBuf::from(args[1].clone());
     Self::check_file_path(&file_path)?;
 
     let case_sensitive = env::var("CASE_SENSITIVE").is_ok();
